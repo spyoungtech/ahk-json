@@ -1,22 +1,16 @@
-import os
-import pathlib
+from typing import Any
 
-from ahk.extensions import Extension
+from .message import JSONResponseMessage
 
-_root = pathlib.Path(__file__).parent
-
-
-def _get_data_location(name: str) -> str:
-    location = _root.joinpath(name)
-    assert os.path.exists(location)
-    return str(location.absolute())
+__all__ = ['JSONResponseMessage', 'JSON', 'Jxon']
 
 
-class JSON(Extension):
-    def __init__(self):
-        super().__init__(includes=[_get_data_location('JSON.ahk')])
+def __getattr__(name: str) -> Any:
+    if name == 'JSON':
+        from .json import JSON
 
+        return JSON
+    elif name == 'Jxon':
+        from .jxon import Jxon
 
-class Jxon(Extension):
-    def __init__(self):
-        super().__init__(includes=[_get_data_location('Jxon.ahk')])
+        return Jxon
