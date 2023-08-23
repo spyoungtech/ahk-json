@@ -10,7 +10,7 @@ def __getattr__(name: str) -> Any:
         from .json import JSON
 
         return JSON
-    elif name == 'Jxon':
-        from .jxon import Jxon
+    elif name == 'JXON':
+        from .jxon import JXON
 
-        return Jxon
+        return JXON
