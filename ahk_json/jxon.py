@@ -16,3 +16,8 @@ JXON = _Jxon()
 @JXON.register
 def __jxon_dump(*args, **kwargs) -> typing.NoReturn:
     raise Exception("This isn't supposed to be called")
+
+
+@JXON.register
+async def __jxon_dump(*args, **kwargs) -> typing.NoReturn:
+    raise Exception("This isn't supposed to be called")

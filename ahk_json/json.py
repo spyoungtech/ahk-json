@@ -16,3 +16,8 @@ JSON = _JSON()
 @JSON.register
 def __json_dump(*args, **kwargs) -> NoReturn:
     raise Exception("This isn't supposed to be called")
+
+
+@JSON.register
+async def __json_dump(*args, **kwargs) -> NoReturn:
+    raise Exception("This isn't supposed to be called")
