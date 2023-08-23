@@ -1,3 +1,5 @@
+from typing import NoReturn
+
 from ahk.extensions import Extension
 
 from .util import _get_data_location
@@ -9,3 +11,8 @@ class _JSON(Extension):
 
 
 JSON = _JSON()
+
+
+@JSON.register
+def __json_dump(*args, **kwargs) -> NoReturn:
+    raise Exception("This isn't supposed to be called")
