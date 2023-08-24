@@ -1,8 +1,7 @@
 from ahk import AHK
 from ahk.extensions import Extension
 
-from ahk_json import JSON
-from ahk_json import Jxon
+from ahk_json import JXON
 
 ext_script = '''\
 MyTestFunction(ByRef command) {
@@ -23,5 +22,10 @@ def myfunc(self, arg: str) -> dict[str, str]:
 
 
 def test_jxon():
-    ahk = AHK(extensions=[Jxon(), my_extention])
+    ahk = AHK(extensions=[JXON, my_extention])
+    assert ahk.myfunc('hello') == {'test': 'hello'}
+
+
+def test_jxon_auto():
+    ahk = AHK(extensions='auto')
     assert ahk.myfunc('hello') == {'test': 'hello'}

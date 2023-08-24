@@ -6,6 +6,55 @@ It provides interfaces from [cocobelgica/AutoHotkey-JSON](https://github.com/coc
 working with JSON in AutoHotkey. The extensions in this package do not provide any additional methods,
 but simply provide a convenient way to include `Jxon.ahk` and/or `JSON.ahk` into other extensions.
 
+This package provides two extensions: `JXON` and `JSON`. It also registers a JSON message type (referenced as `JSONRESPONSEMESSAGE` in AHK scripts)
+
+## Installation
+
+Install this extension using `pip`
+
+```python
+pip install ahk-json
+```
+
+# Usage
+
+Typically, you use this as a dependency when building your own extensions.
+
+In the following example, a simple extension (`my_extension`) is created. It implements an AHK function `MyTestFunction`
+-- the registered to the extension using the Python function `my_test_function`.
+```python
+from ahk.extensions import Extension
+from ahk import AHK
+
+from ahk_json import JXON
+
+ext_script = '''\
+MyTestFunction(ByRef command) {
+    global JSONRESPONSEMESSAGE
+    arg := command[2]
+    obj := Object("test", arg)
+    res := Jxon_Dump(obj) ; this is available thanks to the extension
+    return FormatResponse(JSONRESPONSEMESSAGE, res)
+}
+'''
+
+my_extension = Extension(script_text=ext_script)
+
+@my_extension.register
+def my_test_function(ahk: AHK, arg: str):
+    return ahk._transport.function_call('MyTestFunction', [arg])
+
+
+def main():
+    ahk = AHK(extensions='auto')  # automatically use all imported/created extensions
+    # or use the extensions explicitly:
+    # ahk = AHK(extensions=[JXON, my_extension])
+
+    # now `.my_test_function` is a method on the `ahk` instance:
+    assert ahk.my_test_function('foo') == {'test': 'foo'}
+```
+
+
 # License
 
 This work is licensed under the MIT license.
