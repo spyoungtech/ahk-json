@@ -1,4 +1,4 @@
-# ahk-jxon
+# ahk-json
 
 This is an extension package intended to be used with the Python [ahk](https://github.com/spyoungtech/ahk) package.
 
@@ -41,7 +41,7 @@ my_extension = Extension(script_text=ext_script)
 
 @my_extension.register
 def my_test_function(ahk: AHK, arg: str):
-    return ahk._transport.function_call('MyTestFunction', [arg])
+    return ahk.function_call('MyTestFunction', [arg])
 
 
 def main():
