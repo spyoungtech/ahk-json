@@ -6,7 +6,7 @@ It provides interfaces from [cocobelgica/AutoHotkey-JSON](https://github.com/coc
 working with JSON in AutoHotkey. The extensions in this package do not provide any additional methods,
 but simply provide a convenient way to include `Jxon.ahk` and/or `JSON.ahk` into other extensions.
 
-This package provides two extensions: `JXON` and `JSON`. It also registers a JSON message type (referenced as `JSONRESPONSEMESSAGE` in AHK scripts)
+This package provides two extensions: `JXON` and `JSON`. It also registers a JSON message type (`ahk_json.message.JsonResponseMessage`)
 
 ## Installation
 
@@ -26,15 +26,14 @@ In the following example, a simple extension (`my_extension`) is created. It imp
 from ahk.extensions import Extension
 from ahk import AHK
 
-from ahk_json import JXON
+from ahk_json import JXON  # importing is necessary for ``extensions='auto'`` to work, even if this is not used
 
 ext_script = '''\
 MyTestFunction(ByRef command) {
-    global JSONRESPONSEMESSAGE
     arg := command[2]
     obj := Object("test", arg)
     res := Jxon_Dump(obj) ; this is available thanks to the extension
-    return FormatResponse(JSONRESPONSEMESSAGE, res)
+    return FormatResponse("ahk_json.message.JsonResponseMessage", res)
 }
 '''
 
@@ -50,7 +49,7 @@ def main():
     # or use the extensions explicitly:
     # ahk = AHK(extensions=[JXON, my_extension])
 
-    # now `.my_test_function` is a method on the `ahk` instance:
+    # now ``.my_test_function`` is a method on the `ahk` instance:
     assert ahk.my_test_function('foo') == {'test': 'foo'}
 ```
 

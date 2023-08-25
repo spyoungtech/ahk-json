@@ -5,11 +5,10 @@ from ahk_json import JXON
 
 ext_script = '''\
 MyTestFunction(ByRef command) {
-    global JSONRESPONSEMESSAGE
     arg := command[2]
     obj := Object("test", arg)
     res := Jxon_Dump(obj)
-    return FormatResponse(JSONRESPONSEMESSAGE, res)
+    return FormatResponse("ahk_json.message.JsonResponseMessage", res)
 }
 '''
 
